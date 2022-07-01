@@ -1,0 +1,94 @@
+#!/bin/csh -b
+# .cshrc:  Commands executed for each new csh
+
+setenv PATH /usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:.:/sbin
+setenv LD_LIBRARY_PATH /usr/lib:/usr/lib64:/usr/local/lib:/usr/local/lib64
+setenv P4USER "" 
+setenv P4CONFIG .P4CONFIG
+
+set version=`uname -r`
+
+if ($version =~ 3.*) then
+    #setenv PATH /in/gvim_new/8.0/Linux6/x86_64/bin:$PATH
+endif
+if ($version =~ 2.*) then
+    #setenv PATH /in/gvim_new/8.0/Linux6/x86_64/bin:$PATH
+endif
+if ($version =~ 2.*.el5*) then
+    #setenv PATH /in/gvim7.4/bin:$PATH
+endif
+
+alias h 'history'
+alias sl 'ls'
+alias k9 'kill -9'
+alias vi 'vim'
+alias vid 'vim -d'
+alias vio 'vim -O'
+alias vip 'vim -p'
+alias gi 'gvim'
+alias gid 'gvim -d'
+alias gio 'gvim -O'
+alias gip 'gvim -p'
+
+alias diu '\diff -U 0 '
+alias cf 'c++filt '
+alias di '\diff -U 0 --brief -r -x "*.pyc" -x "node_modules*"'
+alias dv 'dirs -v'
+alias fn 'find . -name '
+alias pd 'pushd '
+alias pdd 'pushd +'\!:$
+alias ppd 'popd '
+alias ssh 'ssh -X'
+alias grp '\grep -Irn --exclude="*.min.js" --exclude="*_wrap*"'
+
+alias p4in 'p4 interchanges -u `whoami` //depot/\!:1/dev/main/src/... //depot/\!:1/dev/\!:2/src/...'
+alias p4de 'p4 describe '
+alias p4d 'p4 diff ...'
+alias p4src 'p4 diff -se /path/...'
+alias p4se 'p4 diff -se ...'
+alias p4e 'p4 diff -se ... | xargs -l p4 edit'
+alias p4o 'p4 opened ...'
+alias p4h 'p4 changes -m 5 -u `whoami` ...'
+alias p4c 'p4 change'
+alias p4s 'p4 shelve -f -c '
+alias p4sd 'p4 shelve -d -c '
+
+alias tarc 'tar -zcvf '
+alias tarx 'tar -zxvf '
+alias tart 'tar -ztvf '
+alias p4dv 'setenv P4DIFF vimdiff'
+alias up4dv 'unsetenv P4DIFF'
+
+# good resolutions 1600x900, 1440x810, 1360x765, 1280x720
+alias vncc 'vncconfig &'
+alias vnck 'vncserver -kill'
+alias vncs 'vncserver -geometry 960x540'
+alias vncn 'vncserver -geometry 1280x720'
+alias vncm 'vncserver -geometry 1360x765'
+alias vncl 'vncserver -geometry 1440x810'
+alias vncxl 'vncserver -geometry 1600x900'
+alias pst 'ps -elf | \grep -i test | \grep `whoami`'
+alias psc 'ps -elf | \grep -i certus | \grep `whoami`'
+alias psv 'ps -elf | \grep -i vnc | \grep `whoami` | \grep -v ":1 \|config"'
+alias psu 'ps -elf | \grep `whoami` | \grep "   1 " | \grep -i test'
+alias psg 'ps -elf | \grep `whoami` | \grep '\$argv
+
+alias sc 'screen -rd '
+alias scc 'screen -S '
+
+set DOMAIN=`hostname -d`
+set DIS=`echo $DOMAIN | sed 's:\..*::'`
+alias disp 'setenv DISPLAY `echo $DIS.$DOMAIN`:1; echo "DISPLAY = $DISPLAY"'
+
+alias vim "/usr/bin/vim"
+alias gtk "gtkwave \!:1 -S \!:1.gtk"
+
+alias runscript "cat \!:$ | xargs -l -I ^ csh -c ' ^ &; sleep 1'"
+alias bcd "repeat \!:$ cd ..; pwd"
+alias vilog 'll -rth | tail -n 1 | awk "{ print \!:$ }" | xargs -l -I ^ vi ./^'
+
+alias PS 'ps -fo uname,pid,pgid,ppid,sid,comm'
+
+limit coredumpsize unlimited
+
+setenv dugui baobab
