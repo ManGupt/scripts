@@ -1,0 +1,11 @@
+[user]
+	name = ManGupt
+	email = 25338257+ManGupt@users.noreply.github.com
+[color]
+	ui = true
+	status = auto
+	branch = auto
+[core]
+	editor = vim
+[merge]
+	tool = vimdiff

@@ -11,8 +11,8 @@ source /etc/vimrc
 :set showmode
 :set showcmd
 :set ts=4
-:set expandtab
 :set sw=4
+:set expandtab
 :set wrap
 :syntax on
 :colorscheme gruvbox
@@ -27,6 +27,7 @@ command PT tabprev
 command W w
 command Q q
 command F qa!
+command S wqa!
 command B %!xxd
 command Wqa wqa
 command WQa wqa
@@ -47,6 +48,9 @@ command Vsp vsp
 command Lcd lcd %:p:h
 command LCd lcd %:p:h
 command LCD lcd %:p:h
+command SD set syntax=diff
+command SNW set nowrap
+command SW set wrap
 "set permanent status line
 :set ls=2
 "set file prompt in status bar for choice
@@ -59,3 +63,5 @@ command LCD lcd %:p:h
 ":set diffopt=filler,horizontal
 au BufRead,BufNewFile *.proto set filetype=tcl
 au BufRead,BufNewFile *.sv set filetype=verilog
+au BufRead,BufNewFile *.ts set filetype=javascript
+au BufRead,BufNewFile *.seg set filetype=json

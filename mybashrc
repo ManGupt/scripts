@@ -1,0 +1,165 @@
+#!/bin/sh -b
+# .bashrc:  Commands executed for each new bash
+
+#if ( ! $?prompt ) then
+#    exit
+#endif
+if [ -z "$PS1" ]; then
+    return
+fi
+
+#set prompt="%n@%m[%h] "
+export PS1="\\u@\\h[$$][\\!] "
+export PS1="\\u@\\h[\\!] [\l] "
+
+# Limit the size of the ~/.bash_history file
+HISTFILESIZE=20
+# Avoid duplicate entries
+export HISTCONTROL=ignoredups:erasedups 
+
+# Append to the history file, don't overwrite it
+shopt -s histappend
+# disable auto completion causing escaped $
+complete -r # temporarily disable all completion rules
+shopt -s direxpand
+
+# Display a list of the matching files
+# bind -v, -p
+bind "set show-all-if-ambiguous on"
+bind '"\ep":history-search-backward'
+bind '"\en":history-search-forward'
+
+export P4PORT="<>:<>"
+export P4USER=`whoami`
+export P4CONFIG=.P4CONFIG
+# perforce setup
+#p4 passwd
+#p4 login -a
+
+version=`uname -r`
+
+#export PATH=/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:.:/sbin
+#export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:/usr/local/lib64
+
+module load vim
+module load firefox
+module load git_lfs
+export LD_LIBRARY_PATH=
+export LD_LIBRARY_PATH=".../gcc-9.2.0/lib:.../gcc-9.2.0/lib64:/usr/lib/x86_64-linux-gnu"
+
+#Exuberant Ctags
+alias ctags='/bin/ctags'
+alias ls='ls --color'
+
+alias h='history'
+alias sl='ls'
+alias k9='kill -9'
+#alias vi='vim'
+#alias vid='vim -d'
+#alias vio='vim -O'
+#alias vip='vim -p'
+alias gi='gvim'
+alias gid='gvim -d'
+alias gio='gvim -O'
+alias gip='gvim -p'
+# HACK for slow vi due to $DISPLAY set.
+alias vi='function _vi() { disp=$DISPLAY; unset DISPLAY; vim $*; export DISPLAY=$disp; }; _vi'
+alias vid='function _vid() { disp=$DISPLAY; unset DISPLAY; vim -d $*; export DISPLAY=$disp; }; _vid'
+alias vio='function _vio() { disp=$DISPLAY; unset DISPLAY; vim -O $*; export DISPLAY=$disp; }; _vio'
+alias vip='function _vip() { disp=$DISPLAY; unset DISPLAY; vim -p $*; export DISPLAY=$disp; }; _vip'
+
+alias diu='\diff -U 0'
+alias cf='c++filt'
+alias di='\diff -U 0 --brief -r -x ".git*" -x "*.pyc" -x "node_modules*" -x "*.o" -x "Build*" -x "installs*"'
+alias dv='dirs -v'
+alias fn='find . -name'
+alias pd='pushd'
+alias pdd='function _pdd() { pushd +$1; }; _pdd'
+alias ppd='popd'
+alias ssh='ssh -X'
+alias grp='\grep -Irn --exclude="swagger-ui-bundle.js" --exclude="*_wrap*" --exclude="*.min.js" --exclude-dir="*node_modules*" --exclude-dir="*angular*" --exclude="*.map" --exclude="*tags"'
+
+alias p4in='function _p4in() { p4 interchanges -u `whoami` //depot/$1/dev/main/src/... //depot/$1/dev/$2/src/...; }; _p4in'
+alias p4de='p4 describe'
+alias p4d='p4 diff ...'
+alias p4src='p4 diff -se /path/...'
+alias p4se='p4 diff -se ...'
+alias p4e='p4 diff -se ... | xargs -l p4 edit'
+alias p4o='p4 opened ...'
+alias p4h='p4 changes -m 5 -u `whoami` ...'
+alias p4c='p4 change'
+alias p4s='p4 shelve -f -c'
+alias p4sd='p4 shelve -d -c'
+
+alias gitl='git log --oneline --all --graph'
+alias gitb='git branch'
+alias gitrev='git checkout origin/master -- '
+alias gitc='git checkout'
+alias gitcb='git checkout -b'
+alias gits='git status'
+alias gitd='git diff -U0'
+alias gitdt='git difftool'
+alias gita='git add'
+alias gitaa='git add --all'
+alias gitm='git commit -m'
+alias gitr='git restore'
+alias gitrs='git restore --staged'
+alias gitsp='git stash push -m'
+alias gitspp='git stash pop'
+alias gitpo='git push origin'
+alias gitppo='git pull origin'
+
+alias gitch='function _gitch() { gitc master; gitppo; gitc $1; gitppo $1; git cherry-pick -m 1 $2; gits; }; _gitch'
+alias gitdb='function _gitdb() { gitc $1; gitppo; gitc master; gitppo; git branch -d $1; }; _gitdb'
+alias gitff='function _gitff() { gitc master; gitppo; gitc $1; gitppo master; }; _gitff'
+
+alias tarc='tar -zcvf'
+alias tarx='tar -zxvf'
+alias tart='tar -ztvf'
+alias p4dv='export P4DIFF=vimdiff'
+alias up4dv='unset P4DIFF'
+
+# good resolutions 1600x900, 1440x810, 1360x765, 1280x720
+alias xfix='xrandr --output VNC-0 --mode 1360x768'
+alias vncc='vncconfig &'
+alias vnck='vncserver -kill'
+alias vncs='vncserver -geometry 960x540'
+alias vncn='vncserver -geometry 1280x720'
+alias vncm='vncserver -geometry 1360x765'
+alias vncl='vncserver -geometry 1440x810'
+alias vncxl='vncserver -geometry 1600x900'
+alias pnet='netstat -tlunp | grep -v "-" | sort -u'
+alias psg='ps -elf | \grep'
+alias psgu='ps -elf | \grep `whoami` | \grep'
+alias psv='ps -elf | \grep -i vnc | \grep `whoami` | \grep -v ":1 \|config"'
+
+alias sc='screen -rd'
+alias scc='screen -S'
+alias disp='export DISPLAY=`echo $DOMAIN`:1'
+
+#set DOMAIN=`hostname -d`
+#set DIS=`echo $DOMAIN | sed 's:\..*::'`
+#alias disp='setenv DISPLAY `echo $DIS.$DOMAIN`:1; echo "DISPLAY = $DISPLAY"'
+
+#alias vim="/usr/bin/vim"
+#alias gtk="gtkwave \!:1 -S \!:1.gtk"
+
+#alias runscript "cat \!:$ | xargs -l -I ^ csh -c=' ^ &; sleep 1'"
+alias bcd='function _bcd() { for ((i=0; i<$1; i++)); do cd ..; done; pwd; }; _bcd'
+alias fix='tput reset'
+alias mkcd='function _mkcd() { mkdir $1; cd $1; }; _mkcd'
+#alias vilog='ll -rth | tail -n 1 | awk "{ print \!:$ }" | xargs -l -I ^ vi ./^'
+
+alias PS='ps -fo uname,pid,pgid,ppid,sid,comm'
+alias cds="cd /remote/sdg_mercury_scratch/`whoami`"
+alias cdb="cd /remote/vgrndn1/`whoami`"
+alias cdh="cd /remote/vgsource9/`whoami`"
+
+#ulimit -c unlimited
+
+alias mmail='function _mmail() { touch $1; mail -s $1 `whoami`@synopsys.com < $1; }; _mmail'
+alias dugui='baobab'
+alias tree='tree --charset=ascii'
+
+alias build='make clean -j; make -j all'
+alias alld="make clean -j DEBUG=1; make -j DEBUG=1 all"
