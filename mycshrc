@@ -58,7 +58,7 @@ alias pd 'pushd'
 alias pdd 'pushd +'\!:$
 alias ppd 'popd'
 alias ssh 'ssh -X'
-alias grp='\grep -Irn --exclude="swagger-ui-bundle.js" --exclude="*_wrap*"' --exclude="*.min.js" --exclude-dir="*node_modules*" --exclude-dir="*angular*" --exclude="*.map" --exclude="*tags"'
+alias grp='\grep -Irn --exclude="swagger-ui-bundle.js" --exclude="*_wrap*" --exclude="*.min.js" --exclude-dir="*node_modules*" --exclude-dir="*angular*" --exclude="*.map" --exclude="*tags"'
 
 alias p4in 'p4 interchanges -u `whoami` //depot/\!:1/dev/main/src/... //depot/\!:1/dev/\!:2/src/...'
 alias p4de 'p4 describe'
