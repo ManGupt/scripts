@@ -2,9 +2,11 @@
 # .bashrc:  Commands executed for each new bash
 
 #if ( ! $?prompt ) then
+#    echo "In non-interactive mode"
 #    exit
 #endif
 if [ -z "$PS1" ]; then
+    echo "In non-interactive mode"
     return
 fi
 
@@ -41,11 +43,11 @@ version=`uname -r`
 #export PATH=/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin:.:/sbin
 #export LD_LIBRARY_PATH=/usr/lib:/usr/lib64:/usr/local/lib:/usr/local/lib64
 
+export LD_LIBRARY_PATH=
+#export LD_LIBRARY_PATH=".../gcc-9.2.0/lib:.../gcc-9.2.0/lib64:/usr/lib/x86_64-linux-gnu"
 module load vim
 module load firefox
 module load git_lfs
-export LD_LIBRARY_PATH=
-export LD_LIBRARY_PATH=".../gcc-9.2.0/lib:.../gcc-9.2.0/lib64:/usr/lib/x86_64-linux-gnu"
 
 #Exuberant Ctags
 alias ctags='/bin/ctags'
