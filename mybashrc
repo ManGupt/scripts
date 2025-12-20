@@ -1,10 +1,6 @@
 #!/bin/sh -b
 # .bashrc:  Commands executed for each new bash
 
-#if ( ! $?prompt ) then
-#    echo "In non-interactive mode"
-#    exit
-#endif
 if [ -z "$PS1" ]; then
     echo "In non-interactive mode"
     return
