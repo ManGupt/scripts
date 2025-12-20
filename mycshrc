@@ -75,7 +75,7 @@ alias p4sd 'p4 shelve -d -c'
 
 alias gitl 'git log --oneline --all --graph'
 alias gitb 'git branch'
-alias gitrev 'git checkout origin/master -- '
+alias gitrev 'git checkout origin/main -- '
 alias gitc 'git checkout'
 alias gitcb 'git checkout -b'
 alias gits 'git status'
@@ -91,9 +91,9 @@ alias gitspp 'git stash pop'
 alias gitpo 'git push origin'
 alias gitppo 'git pull origin'
 
-#alias gitch='function _gitch() { gitc master; gitppo; gitc $1; gitppo $1; git cherry-pick -m 1 $2; gits; }; _gitch'
-#alias gitdb='function _gitdb() { gitc $1; gitppo; gitc master; gitppo; git branch -d $1; }; _gitdb'
-#alias gitff='function _gitff() { gitc master; gitppo; gitc $1; gitppo master; }; _gitff'
+#alias gitch='function _gitch() { gitc main; gitppo; gitc $1; gitppo $1; git cherry-pick -m 1 $2; gits; }; _gitch'
+#alias gitdb='function _gitdb() { gitc $1; gitppo; gitc main; gitppo; git branch -d $1; }; _gitdb'
+#alias gitff='function _gitff() { gitc main; gitppo; gitc $1; gitppo main; }; _gitff'
 
 alias tarc 'tar -zcvf'
 alias tarx 'tar -zxvf'
@@ -129,7 +129,7 @@ alias disp 'setenv DISPLAY `echo $DOMAIN`:1'
 #alias runscript "cat \!:$ | xargs -l -I ^ csh -c ' ^ &; sleep 1'"
 alias bcd "repeat \!:$ cd ..; pwd"
 alias fix "tput reset"
-alias mkcd "mkdir \!:$; cd \!:$"
+alias mkcd "mkdir \!:1; cd \!:1"
 #alias vilog 'll -rth | tail -n 1 | awk "{ print \!:$ }" | xargs -l -I ^ vi ./^'
 
 alias PS 'ps -fo uname,pid,pgid,ppid,sid,comm'
@@ -145,3 +145,56 @@ alias tree 'tree --charset=ascii'
 
 alias build 'make clean -j; make -j all'
 alias alld "make clean -j DEBUG=1; make -j DEBUG=1 all"
+#=========================
+#mkg
+setenv P4PORT "p4p-vg01:1888"
+#1888 -> port for code area
+#2888 -> port for regression area
+
+setenv LD_LIBRARY_PATH "/global/freeware/Linux/3.10/gcc-9.2.0/lib:/global/freeware/Linux/3.10/gcc-9.2.0/lib64:/usr/lib/x86_64-linux-gnu"
+
+alias sshb 'ssh us01odc-sc5-1-pbm297'
+alias sshu 'ssh svc-mercury@us01odc-sc5-1-pbm297'
+alias sshsvc 'ssh -l svc-mercury us01-ailab-bm-004'
+set DOMAIN=`hostname`
+setenv SNPSLMD_LICENSE_FILE 26585@us01genlic:26585@us01snpslmd1
+#=========================
+# Zebu
+#=========================
+#source /u/regress/INFRA_HOME/sourceme.csh
+#source /remote/sge/default/zebutrain/common/settings.csh
+#source /remote/sge/default/vctrain/common/settings.csh
+#source /remote/vtgimages/SAFE/linux64_TD.ZEBU/TD/zebu_env.csh
+
+#ZEBU_ROOT
+#module unload zebu/2020.03-1
+#module load zebu/2021.09
+
+setenv ZEBU_SYSTEM_DIR "/remote/vginterfaces1/zebu_system_dir/CONFIG.TD/snpsit175"
+
+#FILE_CONF=$(FILE_CONF) VCS_HOME=$(VCS_HOME) ZCUIWORK="$(ZCUIWORK)" ZEBUWORK="$(ZEBUWORK)" REMOTECMD="$(REMOTECMD)" zCui -u src/env/${UTF_FILE}  -w $(ZCUIWORK)
+setenv FILE_CONF $ZEBU_SYSTEM_DIR/config/zse_configuration.tcl 
+
+#setenv LD_LIBRARY_PATH $ZEBU_IP_ROOT/lib:$LD_LIBRARY_PATH
+setenv LD_LIBRARY_PATH /remote/vginterfaces1/zebu_ip/ZebuIpRoot_TD.Full/lib:$LD_LIBRARY_PATH
+alias build 'make distclean -j; make -j all'
+alias alld "make distclean -j DEBUG=1; make -j DEBUG=1 all"
+alias sledv 'sledutil view'
+alias sledl 'sledutil ls'
+
+# setup sled
+setenv SLED_USE_ABI 1
+setenv SLED_BACKEND BINFILES
+setenv SLED_DEBUG 0
+setenv SLED_AUTORUN record
+setenv SLED_PROJECT myProj
+setenv SLED_LS_PREFER_GENERIC 1
+source ~/home/repo/mercury-repo/setup_int.csh
+setenv DEBUG electron-rebuild
+
+setenv PYTHONPATH ${PYTHONPATH}:/remote/platforms/common/python/packages
+setenv LD_LIBRARY_PATH /depot/Python/deps/openssl-1.1.1b/lib:$LD_LIBRARY_PATH
+
+#alias sl="lssled -r -P sled 2> /dev/null | sed -n '\$p' | awk '{print \$3}' | xargs -I ^ lssled -r -P sled ^"
+setenv SlEdLiCeNsEByPaSs 0xd6d9756dfa4eb055
+setenv PATH ${SLED_BASE_DIR}/Dependency/python/bin:$PATH

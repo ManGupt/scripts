@@ -65,3 +65,4 @@ au BufRead,BufNewFile *.proto set filetype=tcl
 au BufRead,BufNewFile *.sv set filetype=verilog
 au BufRead,BufNewFile *.ts set filetype=javascript
 au BufRead,BufNewFile *.seg set filetype=json
+

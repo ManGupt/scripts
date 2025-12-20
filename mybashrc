@@ -26,6 +26,7 @@ complete -r # temporarily disable all completion rules
 shopt -s direxpand
 
 # Display a list of the matching files
+#export DISPLAY=us01odcvde21376:1
 # bind -v, -p
 bind "set show-all-if-ambiguous on"
 bind '"\ep":history-search-backward'
@@ -48,6 +49,7 @@ export LD_LIBRARY_PATH=
 module load vim
 module load firefox
 module load git_lfs
+module load screen/4.8.0
 
 #Exuberant Ctags
 alias ctags='/bin/ctags'
@@ -79,7 +81,7 @@ alias pd='pushd'
 alias pdd='function _pdd() { pushd +$1; }; _pdd'
 alias ppd='popd'
 alias ssh='ssh -X'
-alias grp='\grep -Irn --exclude="swagger-ui-bundle.js" --exclude="*_wrap*" --exclude="*.min.js" --exclude-dir="*node_modules*" --exclude-dir="*angular*" --exclude="*.map" --exclude="*tags"'
+alias grp='\grep --color=auto -Irn --exclude="swagger-ui-bundle.js" --exclude="*_wrap*" --exclude="*.min.js" --exclude-dir="*node_modules*" --exclude-dir="*angular*" --exclude="*.map" --exclude="*tags"'
 
 alias p4in='function _p4in() { p4 interchanges -u `whoami` //depot/$1/dev/main/src/... //depot/$1/dev/$2/src/...; }; _p4in'
 alias p4de='p4 describe'
@@ -95,7 +97,7 @@ alias p4sd='p4 shelve -d -c'
 
 alias gitl='git log --oneline --all --graph'
 alias gitb='git branch'
-alias gitrev='git checkout origin/master -- '
+alias gitrev='git checkout origin/main -- '
 alias gitc='git checkout'
 alias gitcb='git checkout -b'
 alias gits='git status'
@@ -111,9 +113,9 @@ alias gitspp='git stash pop'
 alias gitpo='git push origin'
 alias gitppo='git pull origin'
 
-alias gitch='function _gitch() { gitc master; gitppo; gitc $1; gitppo $1; git cherry-pick -m 1 $2; gits; }; _gitch'
-alias gitdb='function _gitdb() { gitc $1; gitppo; gitc master; gitppo; git branch -d $1; }; _gitdb'
-alias gitff='function _gitff() { gitc master; gitppo; gitc $1; gitppo master; }; _gitff'
+alias gitch='function _gitch() { gitc main; gitppo; gitc $1; gitppo $1; git cherry-pick -m 1 $2; gits; }; _gitch'
+alias gitdb='function _gitdb() { gitc $1; gitppo; gitc main; gitppo; git branch -d $1; }; _gitdb'
+alias gitff='function _gitff() { gitc main; gitppo; gitc $1; gitppo main; }; _gitff'
 
 alias tarc='tar -zcvf'
 alias tarx='tar -zxvf'
@@ -122,6 +124,8 @@ alias p4dv='export P4DIFF=vimdiff'
 alias up4dv='unset P4DIFF'
 
 # good resolutions 1600x900, 1440x810, 1360x765, 1280x720
+alias vncconfig='/depot/tigervnc/bin/vncconfig'
+alias vncserver='/depot/tigervnc/bin/vncserver'
 alias xfix='xrandr --output VNC-0 --mode 1360x768'
 alias vncc='vncconfig &'
 alias vnck='vncserver -kill'
@@ -137,7 +141,7 @@ alias psv='ps -elf | \grep -i vnc | \grep `whoami` | \grep -v ":1 \|config"'
 
 alias sc='screen -rd'
 alias scc='screen -S'
-alias disp='export DISPLAY=`echo $DOMAIN`:1'
+alias disp='export DISPLAY=`echo $DOMAIN`:2'
 
 #set DOMAIN=`hostname -d`
 #set DIS=`echo $DOMAIN | sed 's:\..*::'`
@@ -165,3 +169,71 @@ alias tree='tree --charset=ascii'
 
 alias build='make clean -j; make -j all'
 alias alld="make clean -j DEBUG=1; make -j DEBUG=1 all"
+
+#==========================
+#mkg
+export P4PORT="p4p-vg01:1888"
+#1888 -> port for code area
+#2888 -> port for regression area
+
+export LD_LIBRARY_PATH="/global/freeware/Linux/3.10/gcc-9.2.0/lib:/global/freeware/Linux/3.10/gcc-9.2.0/lib64:/usr/lib/x86_64-linux-gnu"
+
+alias sshb='ssh us01odc-sc5-1-pbm297'
+alias sshu='ssh svc-mercury@us01odc-sc5-1-pbm297'
+alias sshsvc='ssh -l svc-mercury us01-ailab-bm-004'
+DOMAIN=`hostname`
+export SNPSLMD_LICENSE_FILE='26585@us01genlic:26585@us01snpslmd1'
+#=========================
+# Zebu
+#=========================
+#date
+#source /u/regress/INFRA_HOME/sourceme.sh
+#source /remote/sge/default/zebutrain/common/settings.sh
+#source /remote/sge/default/vctrain/common/settings.sh
+#source /remote/vtgimages/SAFE/linux64_TD.ZEBU/TD/zebu_env.sh
+
+#ZEBU_ROOT
+#module unload zebu/2020.03-1
+#module load zebu/2021.09
+
+export ZEBU_SYSTEM_DIR="/remote/vginterfaces1/zebu_system_dir/CONFIG.TD/snpsit175"
+
+#FILE_CONF=$(FILE_CONF) VCS_HOME=$(VCS_HOME) ZCUIWORK="$(ZCUIWORK)" ZEBUWORK="$(ZEBUWORK)" REMOTECMD="$(REMOTECMD)" zCui -u src/env/${UTF_FILE}  -w $(ZCUIWORK)
+export FILE_CONF=$ZEBU_SYSTEM_DIR/config/zse_configuration.tcl 
+
+#export LD_LIBRARY_PATH=$ZEBU_IP_ROOT/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/remote/vginterfaces1/zebu_ip/ZebuIpRoot_TD.Full/lib:$LD_LIBRARY_PATH
+alias build='make distclean -j; make -j all'
+alias alld="make distclean -j DEBUG=1; make -j DEBUG=1 all"
+alias sledv='sledutil view'
+alias sledl='sledutil ls'
+alias getdu='/u/regress/INFRA_HOME/bin/getdu'
+alias showdisk='/u/ccmaster/bin/show_disk_space.pl'
+
+# setup sled
+export SLED_USE_ABI=1
+export SLED_BACKEND=BINFILES
+export SLED_DEBUG=0
+export SLED_AUTORUN=record
+export SLED_PROJECT=myProj
+export SLED_LS_PREFER_GENERIC=1
+source ~/home/repo/mercury-repo/setup_int.sh > /dev/null 2>&1
+export DEBUG=electron-rebuild
+
+export PYTHONPATH=$PYTHONPATH:/remote/platforms/common/python/packages
+#export LD_LIBRARY_PATH=/depot/Python/deps/openssl-1.1.1b/lib:$LD_LIBRARY_PATH
+
+#alias sl="lssled -r -P sled 2> /dev/null | sed -n '\$p' | awk '{print \$3}' | xargs -I ^ lssled -r -P sled ^"
+export SlEdLiCeNsEByPaSs=0xd6d9756dfa4eb055
+#export PATH=${SLED_BASE_DIR}/Dependency/python/bin:$PATH
+
+alias refresh='function _refresh() { unlink previous; ln -s $1/mercury previous; \
+    unlink latest; ln -s $2/mercury latest; unlink deployment; \
+    ln -s $2/mercury deployment; unlink latest-lite; ln -s $2/mercury_lite latest-lite }; _refresh'
+
+alias installer='function _installer() { ~/z/installer -batch_installer -source $1 -target $2 -release $3; }; _installer'
+#date
+
+#/depot/intel/parallel_studio_xe_2019_update5_cluster_edition/vtune_amplifier/bin64/amplxe-gui
+#/depot/SUNWspro-SS12.5/solarisstudio12.5/bin/collect ./Build/bin/sleat --import Test/AMD/sdp.seg
+#/depot/SUNWspro-SS12.5/solarisstudio12.5/bin/analyzer test.1.er
