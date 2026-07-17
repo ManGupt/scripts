@@ -28,10 +28,12 @@ unsetenv LD_LIBRARY_PATH
 module load vim
 module load firefox
 module load git_lfs
+module load screen/4.8.0
 
 #Exuberant Ctags
 alias ctags '/bin/ctags'
 alias ls 'ls --color'
+alias l. 'ls -d .* --color=auto'
 
 alias h 'history'
 alias sl 'ls'
@@ -78,6 +80,7 @@ alias gitb 'git branch'
 alias gitrev 'git checkout origin/main -- '
 alias gitc 'git checkout'
 alias gitcb 'git checkout -b'
+alias gitf 'git fetch --prune'
 alias gits 'git status'
 alias gitd 'git diff -U0'
 alias gitdt 'git difftool'
@@ -87,6 +90,8 @@ alias gitm 'git commit -m'
 alias gitr 'git restore'
 alias gitrs 'git restore --staged'
 alias gitsp 'git stash push -m'
+alias gitsl 'git stash list'
+alias gitsd 'git stash drop'
 alias gitspp 'git stash pop'
 alias gitpo 'git push origin'
 alias gitppo 'git pull origin'
@@ -102,6 +107,8 @@ alias p4dv 'setenv P4DIFF vimdiff'
 alias up4dv 'unsetenv P4DIFF'
 
 # good resolutions 1600x900, 1440x810, 1360x765, 1280x720
+alias vncconfig '/depot/tigervnc/bin/vncconfig'
+alias vncserver '/depot/tigervnc/bin/vncserver'
 alias xfix 'xrandr --output VNC-0 --mode 1360x768'
 alias vncc 'vncconfig &'
 alias vnck 'vncserver -kill'
@@ -118,6 +125,7 @@ alias psv 'ps -elf | \grep -i vnc | \grep `whoami` | \grep -v ":1 \|config"'
 alias sc 'screen -rd'
 alias scc 'screen -S'
 alias disp 'setenv DISPLAY `echo $DOMAIN`:1'
+alias dispvm 'setenv DISPLAY us01odcvde21376:1'
 
 #set DOMAIN=`hostname -d`
 #set DIS=`echo $DOMAIN | sed 's:\..*::'`
@@ -181,6 +189,8 @@ alias build 'make distclean -j; make -j all'
 alias alld "make distclean -j DEBUG=1; make -j DEBUG=1 all"
 alias sledv 'sledutil view'
 alias sledl 'sledutil ls'
+alias getdu '/u/regress/INFRA_HOME/bin/getdu'
+alias showdisk '/u/ccmaster/bin/show_disk_space.pl'
 
 # setup sled
 setenv SLED_USE_ABI 1
@@ -198,3 +208,14 @@ setenv LD_LIBRARY_PATH /depot/Python/deps/openssl-1.1.1b/lib:$LD_LIBRARY_PATH
 #alias sl="lssled -r -P sled 2> /dev/null | sed -n '\$p' | awk '{print \$3}' | xargs -I ^ lssled -r -P sled ^"
 setenv SlEdLiCeNsEByPaSs 0xd6d9756dfa4eb055
 setenv PATH ${SLED_BASE_DIR}/Dependency/python/bin:$PATH
+
+alias refresh 'function _refresh() { unlink previous; ln -s $1/mercury previous; \
+    unlink latest; ln -s $2/mercury latest; unlink deployment; \
+    ln -s $2/mercury deployment; unlink latest-lite; ln -s $2/mercury_lite latest-lite }; _refresh'
+
+alias installer 'function _installer() { ~/z/installer -batch_installer -source $1 -target $2 -release $3; }; _installer'
+#date
+
+#/depot/intel/parallel_studio_xe_2019_update5_cluster_edition/vtune_amplifier/bin64/amplxe-gui
+#/depot/SUNWspro-SS12.5/solarisstudio12.5/bin/collect ./Build/bin/sleat --import Test/AMD/sdp.seg
+#/depot/SUNWspro-SS12.5/solarisstudio12.5/bin/analyzer test.1.er
